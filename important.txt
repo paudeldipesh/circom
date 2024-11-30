@@ -1,0 +1,18 @@
+1) circom fibonacci.circom --r1csA
+2) circom fibonacci.circom --r1cs --wasm --sym
+3) snarkjs r1cs info fibonacci.r1cs
+4) snarkjs r1cs print fibonacci.r1cs fibonacci.sym
+5) snarkjs r1cs export json fibonacci.r1cs fibonacci.r1cs.json
+6) node fibonacci_js/generate_witness.js fibonacci_js/fibonacci.wasm input.json fibonacci_input.wtns
+7) snarkjs wtns check fibonacci.r1cs fibonacci_input.wtns
+
+Inside powersoftau folder
+8) snarkjs powersoftau new bn128 12 phase1_pot12_00.ptau -v 
+9) snarkjs powersoftau contribute phase1_pot12_00.ptau phase1_pot12_01.ptau --name="First contribution Name" -v -e="Random text 1"
+10) snarkjs powersoftau contribute phase1_pot12_01.ptau phase1_pot12_02.ptau --name="Second contribution Name" -v -e="Random text 2"
+11) snarkjs powersoftau export challenge phase1_pot12_02.ptau phase1_challenge_03
+    snarkjs powersoftau challenge contribute bn128 phase1_challenge_03 phase1_response_03 -e="Random text"
+    snarkjs powersoftau import response phase1_pot12_02.ptau phase1_response_03 phase1_pot12_03.ptau -n="Third contribution name"
+12) snarkjs powersoftau beacon phase1_pot12_03.ptau phase1_pot12_beacon.ptau 0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f 10 -n="Final Beacon
+13) snarkjs powersoftau prepare phase2 phase1_pot12_beacon.ptau phase1_pot12_final.ptau -v
+14) snarkjs powersoftau verify phase1_pot12_final.ptau
